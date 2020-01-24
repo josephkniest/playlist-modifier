@@ -55,7 +55,7 @@ the changes
         "2",
         "3"
       ]
-    },
+    }
   ],
   "songs" : [
     {
@@ -91,9 +91,7 @@ the changes
   },
   {
     "changeType": "2",
-    "user_id": "4",
     "newPlayList" : {
-      "id": "5",
       "user_id": "4",
       "song_ids": [
         "1"
@@ -112,3 +110,8 @@ the changes
 
 6) Execute the program with ```node playlist-modifier.js <path to input json> <path to changes json> <desired output json path>```
 
+## Maintenance
+
+- Execute tests with ```npm test```
+
+- Keep js files formatted correctly with ```npm run lint```
