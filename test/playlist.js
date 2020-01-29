@@ -7,6 +7,7 @@ describe('exercise manipulating playlists', function () {
   const input = '' + fs.readFileSync(inputFile)
 
   const dir = '/tmp/playlist-test/'
+
   fs.mkdirSync(dir)
 
   const changesFile = dir + 'changes.json'
