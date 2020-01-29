@@ -2,11 +2,12 @@
 const proc = require('child_process')
 const fs = require('fs')
 const assert = require('assert')
+const tmpDir = require('temp-dir')
 describe('exercise manipulating playlists', function () {
   const inputFile = './test/input.json'
   const input = '' + fs.readFileSync(inputFile)
 
-  const dir = '/tmp/playlist-test/'
+  const dir = tmpDir + '/playlist-test/'
 
   fs.mkdirSync(dir)
 
@@ -159,7 +160,6 @@ describe('exercise manipulating playlists', function () {
         '1'
       ]
     }
-
     const changes = [
       {
         changeType: '3',
@@ -172,7 +172,8 @@ describe('exercise manipulating playlists', function () {
     ]
     playlist2.id = '2'
     const expectedOutput = JSON.parse(input)
-    expectedOutput.playlists[1] = playlist2
+    expectedOutput.playlists[1] = expectedOutput.playlists[2]
+    expectedOutput.playlists[2] = playlist2
     test(changes, expectedOutput, done)
   })
 
@@ -201,8 +202,12 @@ describe('exercise manipulating playlists', function () {
   })
 
   afterEach(function () {
-    fs.unlinkSync(changesFile)
-    fs.unlinkSync(outFile)
+    // If the files don't exist because of a test crash, let's
+    // just silence the errors
+    try {
+      fs.unlinkSync(changesFile)
+      fs.unlinkSync(outFile)
+    } catch (e) {}
   })
 
   after(function () {

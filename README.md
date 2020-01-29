@@ -110,6 +110,10 @@ the changes
 
 6) Execute the program with ```node playlist-modifier.js <path to input json> <path to changes json> <desired output json path>```
 
+Data objects are referenced by id in the changes file. When a new playlist is to be added, the id is not required and will be ignored
+if present as id assignment is the job of this program in maintaining an unsorted serial indexing scheme. Removals of playlists are
+done by id.
+
 ## Maintenance
 
 - Execute tests with ```npm test```
