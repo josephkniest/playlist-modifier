@@ -153,6 +153,31 @@ describe('exercise manipulating playlists', function () {
     test(changes, expectedOutput, done)
   })
 
+  it('removes playlist 1, then inserts a new playlist number 1', function (done) {
+    const playlist1 = {
+      user_id: '1',
+      song_ids: [
+        '1'
+      ]
+    }
+    const changes = [
+      {
+        changeType: '3',
+        playlist_id: '1'
+      },
+      {
+        changeType: '2',
+        newPlayList: playlist1
+      }
+    ]
+    playlist1.id = '1'
+    const expectedOutput = JSON.parse(input)
+    expectedOutput.playlists[0] = expectedOutput.playlists[1]
+    expectedOutput.playlists[1] = expectedOutput.playlists[2]
+    expectedOutput.playlists[2] = playlist1
+    test(changes, expectedOutput, done)
+  })
+
   it('removes playlist 2, then inserts a new playlist number 2', function (done) {
     const playlist2 = {
       user_id: '1',

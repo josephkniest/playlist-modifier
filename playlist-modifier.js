@@ -1,4 +1,5 @@
 const fs = require('fs')
+const beautify = require('json-beautify')
 
 const playlist = JSON.parse('' + fs.readFileSync(process.argv[2]))
 
@@ -69,8 +70,10 @@ const applyChange = function (change) {
 
 const applyChanges = function (changesBuff) {
   const changes = JSON.parse('' + changesBuff)
-  for (var i = 0; (typeof changes) === 'object' && i < changes.length; i++) {
-    applyChange(changes[i])
+  if ((typeof changes) === 'object') {
+    for (var i = 0; i < changes.length; i++) {
+      applyChange(changes[i])
+    }
   }
 }
 
@@ -78,4 +81,4 @@ const changeFile = process.argv[3]
 const outFile = process.argv[4]
 applyChanges(fs.readFileSync(changeFile))
 
-fs.writeFileSync(outFile, JSON.stringify(playlist))
+fs.writeFileSync(outFile, beautify(playlist, null, 2, 80))

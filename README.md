@@ -119,3 +119,20 @@ done by id.
 - Execute tests with ```npm test```
 
 - Keep js files formatted correctly with ```npm run lint```
+
+## Scaling
+
+In order to scale this progam to handle large inputs it would be worth taking advantage of node's process-based asynchrony model. If
+we were faced with 5K playlist insertion operations without a removal anywhere within that block of changes we could in theory
+parallelize those operations and kick off a new process for, say, every 10 changes using node's child process module. The results
+would be wrapped in a promise and a Promise.all() would be employed. The exact batch size to handle for each process could be
+experimented on for performance.
+
+The same could be said for adding songs to playlists, although here we would need to be more mindful of the classic computer science
+"multiple writers" problem, as the songs changes might involve the same playlist.
+
+In general, this model emulates Google's Map Reduce, where a myriad of atomic operations that are not interdependent are "mapped" out to a 
+series of processes or threads that handle those in parallel. In our case the "mapping" would be manipulating different playlist objects
+within the overall playlist array independently. The algorithm to do this safely and correctly would be part of the mapping work. The
+"reduce" portion would be to collect the updated playlist objects and put them back into the over all playlist set. This would happen
+within the Promise.all() function.
